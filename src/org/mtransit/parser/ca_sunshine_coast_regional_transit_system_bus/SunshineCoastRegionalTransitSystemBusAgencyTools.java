@@ -203,13 +203,39 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 								"170999", // Northbound Redrooffs at Sunshine Coast Highway
 						})) //
 				.compileBothTripSort());
+		map2.put(90L, new RouteTripSpec(90L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, "Sechelt", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Langdale Ferry") //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"170101", // Westbound Langdale Ferry Terminal at Sunshine Coast
+								"170106", // ==
+								"118025", // !=
+								"170128",// !=
+								"170107", // !=
+								"170119", // !=
+								"170131", // ==
+								"170003", // Eastbound Cowrie at Trail
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"170003", // Eastbound Cowrie at Trail
+								"170072", // ==
+								"170073", // !=
+								"170098", // !=
+								"170120", // !=
+								"118023", // !=
+								"170099", // ==
+								"170101", // Westbound Langdale Ferry Terminal at Sunshine Coast
+						})) //
+				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
 	}
 
 	@Override
 	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
 		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
 		}
 		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
 	}
@@ -225,7 +251,7 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 	@Override
 	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()));
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
 		}
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
@@ -273,12 +299,6 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
-		if (mTrip.getRouteId() == 90L) {
-			if (mTrip.getHeadsignId() == 1) {
-				mTrip.setHeadsignString("Langdale Ferry", mTrip.getHeadsignId());
-				return true;
-			}
-		}
 		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		System.exit(-1);
 		return false;
