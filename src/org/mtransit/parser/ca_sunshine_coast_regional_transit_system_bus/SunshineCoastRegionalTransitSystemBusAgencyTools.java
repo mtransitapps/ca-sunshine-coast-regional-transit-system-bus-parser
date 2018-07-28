@@ -45,12 +45,16 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating Sunshine Coast Regional Transit System bus data...");
+		System.out.printf("\nGenerating Sunshine Coast Regional TS bus data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
-		System.out.printf("\nGenerating Sunshine Coast Regional Transit System bus data... DONE in %s.\n",
-				Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		System.out.printf("\nGenerating Sunshine Coast Regional TS bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+	}
+
+	@Override
+	public boolean excludingAll() {
+		return this.serviceIds != null && this.serviceIds.isEmpty();
 	}
 
 	private static final String INCLUDE_ONLY_SERVICE_ID_CONTAINS = null;
