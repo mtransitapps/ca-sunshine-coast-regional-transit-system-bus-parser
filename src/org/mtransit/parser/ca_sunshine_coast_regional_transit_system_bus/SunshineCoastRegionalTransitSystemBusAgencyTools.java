@@ -27,8 +27,8 @@ import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
 
-// https://bctransit.com/*/footer/open-data
-// https://bctransit.com/servlet/bctransit/data/GTFS - Sunshine Coast
+// https://www.bctransit.com/open-data
+// https://www.bctransit.com/data/gtfs/sunshine-coast.zip
 public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -271,6 +271,7 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 	private static final String EXCH = "Exch";
 	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
+
 	private static final Pattern ENDS_WITH_EXPRESS = Pattern.compile("( express.*$)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern ENDS_WITH_LOCAL = Pattern.compile("( local.*$)", Pattern.CASE_INSENSITIVE);
