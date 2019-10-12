@@ -159,13 +159,17 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 				.addTripSort(MDirectionType.EAST.intValue(), //
 						Arrays.asList(new String[] { //
 						"170006", // Eastbound Cowrie at Trail
-								"118001", //
+								"170219", // ==
+								"170222", // !=
+								"118024", // !=
+								"118031", // !=
+								"170223", // ==
 								"170335", // Southbound Mason at Northwest Bay
 						})) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
 						Arrays.asList(new String[] { //
 						"170335", // Southbound Mason at Northwest Bay
-								"170232", //
+								"170232", // ++
 								"170006", // Eastbound Cowrie at Trail
 						})) //
 				.compileBothTripSort());
