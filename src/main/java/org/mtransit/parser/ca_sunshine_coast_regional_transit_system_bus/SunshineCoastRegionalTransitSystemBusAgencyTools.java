@@ -5,10 +5,11 @@ import org.jetbrains.annotations.Nullable;
 import org.mtransit.commons.CleanUtils;
 import org.mtransit.commons.StringUtils;
 import org.mtransit.parser.DefaultAgencyTools;
-import org.mtransit.parser.gtfs.data.GAgency;
 import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.mt.data.MAgency;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 // https://www.bctransit.com/open-data
@@ -17,6 +18,12 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 
 	public static void main(@NotNull String[] args) {
 		new SunshineCoastRegionalTransitSystemBusAgencyTools().start(args);
+	}
+
+	@Nullable
+	@Override
+	public List<Locale> getSupportedLanguages() {
+		return LANG_EN;
 	}
 
 	@Override
@@ -32,22 +39,10 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 
 	private static final String AGENCY_ID = "16"; // Sunshine Coast Regional Transit System only
 
+	@Nullable
 	@Override
-	public boolean excludeAgency(@NotNull GAgency gAgency) {
-		//noinspection deprecation
-		if (!gAgency.getAgencyId().equals(AGENCY_ID)) {
-			return EXCLUDE;
-		}
-		return super.excludeAgency(gAgency);
-	}
-
-	@Override
-	public boolean excludeRoute(@NotNull GRoute gRoute) {
-		//noinspection deprecation
-		if (gRoute.isDifferentAgency(AGENCY_ID)) {
-			return EXCLUDE;
-		}
-		return super.excludeRoute(gRoute);
+	public String getAgencyId() {
+		return AGENCY_ID;
 	}
 
 	@NotNull
@@ -57,8 +52,18 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 	}
 
 	@Override
-	public long getRouteId(@NotNull GRoute gRoute) {
-		return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
+	public boolean defaultRouteIdEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean useRouteShortNameForRouteId() {
+		return true;
+	}
+
+	@Override
+	public boolean defaultRouteLongNameEnabled() {
+		return true;
 	}
 
 	@NotNull
@@ -88,22 +93,19 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 
 	@Nullable
 	@Override
-	public String getRouteColor(@NotNull GRoute gRoute, @NotNull MAgency agency) {
-		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
-			final int rsn = Integer.parseInt(gRoute.getRouteShortName());
-			switch (rsn) {
-			// @formatter:off
-			case 1: return "114D8A";
-			case 2: return "8BC340";
-			case 3: return "28A8DF";
-			case 4: return "FC278F";
-			case 90: return "F78A21";
-			// @formatter:on
-			default:
-				return AGENCY_COLOR_BLUE;
-			}
+	public String provideMissingRouteColor(@NotNull GRoute gRoute) {
+		final int rsn = Integer.parseInt(gRoute.getRouteShortName());
+		switch (rsn) {
+		// @formatter:off
+		case 1: return "114D8A";
+		case 2: return "8BC340";
+		case 3: return "28A8DF";
+		case 4: return "FC278F";
+		case 90: return "F78A21";
+		// @formatter:on
+		default:
+			return AGENCY_COLOR_BLUE;
 		}
-		return super.getRouteColor(gRoute, agency);
 	}
 
 	@Override
