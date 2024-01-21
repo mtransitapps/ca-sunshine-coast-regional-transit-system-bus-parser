@@ -36,14 +36,6 @@ public class SunshineCoastRegionalTransitSystemBusAgencyTools extends DefaultAge
 		return "Sunshine Coast Regional TS";
 	}
 
-	private static final String AGENCY_ID = "16"; // Sunshine Coast Regional Transit System only
-
-	@Nullable
-	@Override
-	public String getAgencyId() {
-		return AGENCY_ID;
-	}
-
 	@NotNull
 	@Override
 	public Integer getAgencyRouteType() {
